@@ -3,11 +3,13 @@ import { App, Plugin, PluginSettingTab, Setting, TFile, TFolder, Vault } from 'o
 interface MyPluginSettings {
     mySetting: string;
     openNoteAfterOtherPlugins: boolean;
+    folderScope: string | null;
 }
 
 const DEFAULT_SETTINGS: MyPluginSettings = {
     mySetting: 'default',
-    openNoteAfterOtherPlugins: true
+    openNoteAfterOtherPlugins: true,
+    folderScope: null,
 }
 
 export default class MyPlugin extends Plugin {
@@ -84,6 +86,19 @@ export class MyPluginSettingTab extends PluginSettingTab {
                 .setValue(this.plugin.settings.openNoteAfterOtherPlugins)
                 .onChange(async (value) => {
                     this.plugin.settings.openNoteAfterOtherPlugins = value;
+                    await this.plugin.saveSettings();
+                })
+            )
+
+        // TODO: implement ISuggestOwner, multiple choises
+        new Setting(containerEl)
+            .setName('Folders from which random note should be pulled out')
+            .setDesc('Path should be absolute')
+            .addText((text) => text
+                .setPlaceholder('Example: /folder')
+                .setValue(this.plugin.settings.folderScope ?? '')
+                .onChange(async (value) => {
+                    this.plugin.settings.folderScope = value;
                     await this.plugin.saveSettings();
                 })
             )
