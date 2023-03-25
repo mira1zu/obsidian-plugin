@@ -40,7 +40,13 @@ export default class MyPlugin extends Plugin {
             const randomNumber = Math.floor(Math.random() * (filesAmount + 1));
             const randomFile = files[randomNumber];
 
-            workspace.getLeaf(true).openFile(randomFile);
+            if (this.settings.openNoteAfterOtherPlugins) {
+                setTimeout(() => {
+                    workspace.getLeaf(true).openFile(randomFile);
+                }, 0);
+            } else {
+                workspace.getLeaf(true).openFile(randomFile);
+            }
         });
     }
 
