@@ -2,7 +2,7 @@
 	"name": "obsidian-random-notes-plugin",
 	"version": "1.0.0",
 	"description": "This is a simple plugin made to open a random note on Obsidian startup.",
-	"main": "src/main.js",
+	"main": "dist/main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
 		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
