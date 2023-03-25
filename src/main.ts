@@ -26,7 +26,8 @@ export default class MyPlugin extends Plugin {
 
             const files: TFile[] = [];
 
-            // TODO: add support for selection desired folder(s)
+            // TODO: add support for selecting desired folder(s)
+            // TODO: add support for ignoring files that have specific mark
             Vault.recurseChildren(fileTree, (file) => {
                 if (file instanceof TFolder) {
                     return;
