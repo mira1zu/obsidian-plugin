@@ -1,10 +1,10 @@
 {
-	"id": "obsidian-random-notes-plugin",
-	"name": "Random Notes",
-	"version": "1.0.0",
-	"minAppVersion": "0.15.0",
-	"description": "This is a simple plugin made to open a random note on Obsidian startup.",
-	"author": "mira1zu",
-	"authorUrl": "mira1zu@mira1zu.com",
-	"isDesktopOnly": true
+    "id": "obsidian-random-notes-plugin",
+    "name": "Random Notes",
+    "version": "1.0.0",
+    "minAppVersion": "0.15.0",
+    "description": "This is a simple plugin made to open a random note on Obsidian startup.",
+    "author": "mira1zu",
+    "authorUrl": "mira1zu@mira1zu.com",
+    "isDesktopOnly": true
 }
