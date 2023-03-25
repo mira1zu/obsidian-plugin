@@ -1,7 +1,23 @@
-import { Plugin, TFile, TFolder, Vault } from 'obsidian';
+import { App, Plugin, PluginSettingTab, Setting, TFile, TFolder, Vault } from 'obsidian';
+
+interface MyPluginSettings {
+    mySetting: string;
+    openNoteAfterOtherPlugins: boolean;
+}
+
+const DEFAULT_SETTINGS: MyPluginSettings = {
+    mySetting: 'default',
+    openNoteAfterOtherPlugins: true
+}
 
 export default class MyPlugin extends Plugin {
-    onload() {
+    settings: MyPluginSettings;
+
+    async onload() {
+        await this.loadSettings();
+
+        this.addSettingTab(new MyPluginSettingTab(this.app, this));
+
         const vault = this.app.vault;
         const workspace = this.app.workspace;
 
@@ -26,5 +42,43 @@ export default class MyPlugin extends Plugin {
 
             workspace.getLeaf(true).openFile(randomFile);
         });
+    }
+
+    async loadSettings() {
+        this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    }
+
+    async saveSettings() {
+        await this.saveData(this.settings);
+    }
+}
+
+export class MyPluginSettingTab extends PluginSettingTab {
+    plugin: MyPlugin;
+
+    constructor(app: App, plugin: MyPlugin) {
+        super(app, plugin);
+        this.plugin = plugin;
+    }
+
+    display() {
+        console.log(this);
+
+        const { containerEl } = this;
+
+        containerEl.empty();
+
+        containerEl.createEl('h2', { text: 'General' });
+
+        new Setting(containerEl)
+            .setName('Open random note after other plugins')
+            .setDesc('Some plugins, like `Daily notes`, open a note on startup as well')
+            .addToggle((toggle) => toggle
+                .setValue(this.plugin.settings.openNoteAfterOtherPlugins)
+                .onChange(async (value) => {
+                    this.plugin.settings.openNoteAfterOtherPlugins = value;
+                    await this.plugin.saveSettings();
+                })
+            )
     }
 }
